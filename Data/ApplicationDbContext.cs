@@ -10,6 +10,7 @@ namespace EventManagerADV.Data
             : base(options)
         {
         }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public DbSet<Event> Events { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
