@@ -1,0 +1,27 @@
+@model IEnumerable<EventManagerADV.Models.Category>
+
+<h1>Categorieën</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nieuwe Categorie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Bewerken</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Verwijderen</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

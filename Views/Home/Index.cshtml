@@ -1,0 +1,35 @@
+﻿@model IEnumerable<EventManagerADV.Models.Event>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th>Categorie</th>
+            <th>Datum</th>
+            <th>Vrijwilligers</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Category?.Name</td>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>
+                    @foreach (var ev in item.EventVolunteers)
+                    {
+                        @ev.Volunteer?.Name
+
+                        <br />
+                    }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

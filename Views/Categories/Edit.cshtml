@@ -1,0 +1,13 @@
+@model EventManagerADV.Models.Category
+
+<h1>Bewerk Categorie</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label for="Name">Naam</label>
+        <input type="text" class="form-control" asp-for="Name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+</form>

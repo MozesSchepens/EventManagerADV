@@ -1,0 +1,18 @@
+@model EventManagerADV.Models.Category
+
+<h1>Verwijder Categorie</h1>
+
+<div>
+    <h4>Categorie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>@Model.Name</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Verwijderen</button>
+        <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+    </form>
+</div>
