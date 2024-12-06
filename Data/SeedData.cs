@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManagerADV.Data
@@ -12,59 +10,49 @@ namespace EventManagerADV.Data
     {
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
-            using var scope = serviceProvider.CreateScope();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            // Define roles
-            string[] roles = { "Admin", "User" };
-
-            foreach (var role in roles)
+            // Voeg standaardrollen toe
+            if (!await roleManager.RoleExistsAsync("Admin"))
             {
-                if (!await roleManager.RoleExistsAsync(role))
-                {
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
             }
 
-            // Add admin user
-            if (userManager.Users.All(u => u.UserName != "admin@example.com"))
+            if (!await roleManager.RoleExistsAsync("User"))
             {
-                var admin = new ApplicationUser
-                {
-                    UserName = "admin@example.com",
-                    Email = "admin@example.com",
-                    FirstName = "Admin",
-                    LastName = "User",
-                    EmailConfirmed = true
-                };
-
-                var result = await userManager.CreateAsync(admin, "Admin@1234");
-
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "Admin");
-                }
+                await roleManager.CreateAsync(new IdentityRole("User"));
             }
 
-            // Add standard user
-            if (userManager.Users.All(u => u.UserName != "user@example.com"))
+            // Voeg een standaardbeheerder toe
+            var user = new ApplicationUser
             {
-                var user = new ApplicationUser
-                {
-                    UserName = "user@example.com",
-                    Email = "user@example.com",
-                    FirstName = "Standard",
-                    LastName = "User",
-                    EmailConfirmed = true
-                };
+                UserName = "admin@example.com",
+                Email = "admin@example.com",
+                Voornaam = "Admin",
+                Achternaam = "User",
+                EmailConfirmed = true
+            };
 
-                var result = await userManager.CreateAsync(user, "User@1234");
+            if (await userManager.FindByNameAsync(user.UserName) == null)
+            {
+                await userManager.CreateAsync(user, "Admin@123");
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
 
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(user, "User");
-                }
+            var defaultUser = new ApplicationUser
+            {
+                UserName = "mib",
+                Email = "mib@gmail.com",
+                Voornaam = "mib",
+                Achternaam = "mib",
+                EmailConfirmed = true
+            };
+
+            if (await userManager.FindByNameAsync(defaultUser.UserName) == null)
+            {
+                await userManager.CreateAsync(defaultUser, "User@123");
+                await userManager.AddToRoleAsync(defaultUser, "User");
             }
         }
     }

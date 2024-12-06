@@ -4,14 +4,13 @@ using EventManagerADV.Models;
 
 namespace EventManagerADV.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
         public DbSet<Event> Events { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<Category> Categories { get; set; }
