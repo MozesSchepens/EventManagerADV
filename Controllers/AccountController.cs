@@ -62,7 +62,7 @@ namespace EventManagerADV.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     Voornaam = model.Voornaam,
-                    Achternaam = model.Naam
+                    Achternaam = model.Achternaam
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
